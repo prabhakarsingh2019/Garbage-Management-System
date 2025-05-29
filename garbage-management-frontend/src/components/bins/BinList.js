@@ -8,12 +8,12 @@ const BinList = () => {
   const [bins, setBins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const { user, hasRole } = useAuth();
+  const { user, token, hasRole } = useAuth();
 
   useEffect(() => {
     const fetchBins = async () => {
       try {
-        const data = await binService.getAllBins(user.token);
+        const data = await binService.getAllBins(token);
         setBins(data);
       } catch (err) {
         toast.error("Failed to fetch bins");
@@ -24,7 +24,7 @@ const BinList = () => {
     };
 
     fetchBins();
-  }, [user.token]);
+  }, [token]);
 
   const filteredBins = bins.filter((bin) => {
     const term = searchTerm.toLowerCase();
@@ -71,7 +71,7 @@ const BinList = () => {
         {hasRole("admin") && (
           <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
             <Link
-              to="/bins/new"
+              to="/admin/bins/new"
               className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Add new bin
