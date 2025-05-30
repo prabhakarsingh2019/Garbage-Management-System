@@ -10,6 +10,7 @@ const Login = () => {
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const [serverMessage, setServerMessage] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -17,6 +18,7 @@ const Login = () => {
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (serverMessage) setServerMessage("");
   };
 
   const onSubmit = async (e) => {
@@ -28,7 +30,9 @@ const Login = () => {
       navigate("/");
       toast.success("Logged in successfully");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Login failed");
+      const message = err.response?.data?.message || "Login failed";
+      toast.error(message);
+      setServerMessage(message);
       setLoading(false);
     }
   };
@@ -120,6 +124,12 @@ const Login = () => {
                 </Link>
               </div>
             </div>
+
+            {serverMessage && (
+              <p className="text-sm text-red-600 text-center">
+                {serverMessage}
+              </p>
+            )}
 
             <div>
               <button
