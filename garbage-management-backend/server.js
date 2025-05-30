@@ -17,7 +17,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: process.env.FRONT_WEB,
+    origin: [process.env.FRONT_WEB, "http://localhost:3000"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
